@@ -21,9 +21,13 @@ This repository does **NOT** contain any copyrighted content from the original g
 
 *Wangan Midnight Maximum Tune* is a trademark of Bandai Namco Entertainment, Inc. This is an UNOFFICIAL, strictly NON-COMMERCIAL fan project and is not affiliated with them in any way, shape or form, written or implied.
 
-**Where can I get the APK / EXE?** 
+**Where can I get the APK / EXE?**
 
-You can't. Any pre-built binaries you see online are unauthorized distributions of copyrighted content, and are not affiliated with this project or its developers. Running unsigned executables from strangers is a bad idea anyway. 
+You can't. Any pre-built APK or PC EXE you see online is an unauthorized distribution of copyrighted content, and is not affiliated with this project or its developers. Running unsigned executables from strangers is a bad idea anyway.
+
+**Where can I get the Switch NRO?**
+
+The Switch build is available in [GitHub Releases](https://github.com/dev1ce369/super3dx-plus-nx/releases/latest). The NRO contains only this project's code — **no game data, no dump, no converted assets**. You still need to make your own converted `data/` folder from a legally obtained dump and put it beside the NRO on your SD card. See [docs/SWITCH.md](docs/SWITCH.md) for the exact folder layout and steps.
 
 ## Quick start
 
