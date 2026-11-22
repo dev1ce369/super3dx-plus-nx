@@ -48,11 +48,10 @@ Suggested layout:
 
 ```text
 .super3dx/wmmt6/
+├── ANALYSIS.md
 ├── pe_inventory.json
-├── ghidra/
-│   └── wmn6r.gpr/
-├── decomp/
-│   └── <generated C, never commit>
+├── disasm/
+│   └── <generated .asm.txt, never commit>
 └── notes/
 ```
 
@@ -63,12 +62,9 @@ Available here:
 - Python 3 with `capstone` and `unicorn`
 - JDK 17 at `C:\Program Files\Microsoft\jdk-17.0.21.21-hotspot`
 
-Recommended for real decompilation:
-
-- Ghidra 11.1.2 (works with JDK 17) installed under `.super3dx/tools/ghidra/`
-
-Ghidra 12.x requires a newer JDK, so 11.1.2 is the compatible choice with the
-existing JDK 17.
+The chosen path for now is **Python-only**. Ghidra 11.1.2 would work with JDK 17,
+but no decompiler download is being used. Generated assembly from the tools
+below stays in `.super3dx/wmmt6/` and is never committed.
 
 ## Step 1 — PE inventory (no game data published)
 
@@ -84,20 +80,32 @@ python platform\wmmt6\tools\pe_inventory.py `
 This reports architecture, subsystem, sections, and imported DLL names. It
 does not copy or modify any game file.
 
-## Step 2 — local decompilation proof-of-concept
+## Step 2 — local export disassembly (Python + capstone)
 
-After Ghidra is available, import a small support DLL first, not the main
-executable. The goal is to measure decompilation quality and identify which
-APIs need manual reimplementation. All decompiled C stays in
-`.super3dx/wmmt6/decomp/` and must never be committed.
+`tools/pe_exports_disasm.py` reads a local PE file and disassembles each exported
+function plus the entry point with `capstone`. Output is written only to the
+ignored local work folder:
+
+```powershell
+python platform\wmmt6\tools\pe_exports_disasm.py `
+  "C:\path\to\dump\bngrw.dll" `
+  --out ".super3dx\wmmt6\disasm" `
+  --max-bytes 512
+```
+
+Start with small support DLLs, not the 34 MB main executable. The point is to
+see what the code actually does, not to produce a playable game. Each module
+gets a `report.json` and one `.asm.txt` per export under
+`.super3dx/wmmt6/disasm/<module>/`. None of it may be committed.
 
 ## Status
 
 - [x] Local dump inventory and PE architecture check
-- [ ] Agree on/install Ghidra 11.1.2 locally
-- [ ] PE inventory report written to local ignored folder
-- [ ] Small-DLL decompilation proof-of-concept
+- [x] PE inventory report written to local ignored folder
+- [x] Python-only export disassembly of support DLLs and main executable
+- [ ] Small function selected for manual C reconstruction
 - [ ] Main executable function/map report
 - [ ] Decision on whether a native rewrite is tractable
 
-No playable binary, APK, or NRO is planned from this work yet.
+No Ghidra install and no playable binary, APK, or NRO is planned from this work
+yet.
