@@ -1,0 +1,10 @@
+{
+  "_lang": "en",
+  "_about": "Addresses the automatic mapping cannot find, or where its two methods (matching bytes, following the code's references) disagree, settled by hand from the data. tools/mkaddrmap.py applies these over its own result and lists any disagreement not covered here. A null target means the export build has nothing equivalent.",
+  "0x93D21C0": ["0x93D3FC0", "clTenStartRivalNameDisp::reset: the 32 'vs <name>' pointers; the export build has 'vs Akio Asakura' first, found by shape and by the function's own load of this table"],
+  "0x93D2AD0": ["0x93D47C1", "clTenStartRivalNameDisp::reset: the banner's sprintf format; Japan '%s' + a full-width round number, export '%d racer' + the integer (menupack.py handles both)"],
+  "0x93D2240": [null, "Japan's table of 32 full-width round numbers; the export build formats the integer directly and has no such table"],
+  "0x93FD120": ["0x94024C0", "storysel.py: 110 plain integers (ramp ids). At 0x94024C0 all 110 equal Japan's; the code-reference answer 0x9402680 holds pointer-sized values (5 of 110 equal)"],
+  "0x93FD820": ["0x9402C20", "steff.py: a table of sprite ids. At 0x9402C20 the values drift from Japan's by a few repeating offsets (+11 x30, +15 x22, +9 x15, as a re-numbered sprite list does); at 0x9402BC0 by 58 scattered ones"],
+  "0x933A5DC": ["0x940A8EC", "sttune.py: the 'STEP' label. The export code loads the plain ASCII 'STEP' at 0x940A8EC; 0x933C37C still holds Japan's full-width string but it is not what the export code uses"]
+}

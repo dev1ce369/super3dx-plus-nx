@@ -1,0 +1,123 @@
+// attribs: aPos aUV aColor aNormal
+//----VS
+#define PROG 2
+#define CUTOUT 0
+#define FRAME_ENV 0
+attribute vec3 aPos; attribute vec2 aUV; attribute vec4 aColor; attribute vec3 aNormal;
+uniform mat4 uMVP, uMV; uniform vec3 uEye, uL0, uL1, uL2, uD0, uD1, uD2, uAmb; uniform float uPower; uniform vec2 uFog;
+varying vec2 vUV; varying lowp vec4 vColor;
+#if PROG == 0
+varying lowp float vFog;
+#else
+varying vec2 vEnv;
+#endif
+#if PROG == 2
+varying float vFacing;
+#endif
+#if PROG == 1
+varying vec3 vHalf, vNormal;
+#endif
+#if FRAME_ENV
+varying vec3 vFrame; varying float vFres;
+#endif
+void main() {
+  gl_Position = uMVP * vec4(aPos, 1.0); vUV = aUV;
+#if FRAME_ENV
+  vec3 fp = normalize((uMV * vec4(aPos, 1.0)).xyz), fn = normalize((uMV * vec4(aNormal, 0.0)).xyz);
+  vFrame = reflect(fp, fn);
+  float fc = 1.0 - clamp(-dot(fp, fn), 0.0, 1.0);
+  vFres = fc * fc * fc * fc * fc;
+#endif
+#if PROG == 2
+  vec3 vcol = vec3(1.0);
+#else
+  vec3 vcol = aColor.rgb;
+#endif
+  vec3 d = clamp((max(dot(aNormal, uL0), 0.0) * uD0 + uAmb + max(dot(aNormal, uL1), 0.0) * uD1 + max(dot(aNormal, uL2), 0.0) * uD2) * vcol, 0.0, 1.0);
+#if PROG == 0
+  vColor = vec4(d, aColor.a);
+  vFog = clamp((uFog.x - distance(aPos, uEye)) / (uFog.x - uFog.y), 0.0, 1.0);
+#elif PROG == 1
+  vColor = vec4(d, 1.0 - uPower);
+  vHalf = normalize(normalize(uEye - aPos) + uL0); vNormal = aNormal;
+  vec2 n = (uMV * vec4(aNormal, 0.0)).xy * 0.5 + 0.5;
+  vEnv = vec2(n.x, n.y * 0.5 + 0.5);
+#else
+  vFacing = dot(aNormal, uEye - aPos);
+  vColor = vec4(d, aColor.a);
+  vec3 p = (uMV * vec4(aPos, 1.0)).xyz;
+  vec3 e = p * inversesqrt(dot(p, p) + 1.0);
+  vec3 n = normalize((uMV * vec4(aNormal, 0.0)).xyz);
+  vec2 r = e.xy - 2.0 * dot(e, n) * n.xy;
+  vEnv = vec2(r.x * 0.5 + 0.5, (r.y * 0.5 + 0.5) * 0.4 + 0.6);
+#endif
+}
+
+//----FS
+#define PROG 2
+#define CUTOUT 0
+#define FRAME_ENV 0
+precision mediump float;
+uniform sampler2D uTex, uEnv, uSpec, uAO; uniform lowp vec3 uFogColor;
+varying vec2 vUV; varying lowp vec4 vColor;
+#if PROG == 0
+varying lowp float vFog;
+#else
+varying vec2 vEnv;
+#if PROG == 2
+varying float vFacing; uniform float uSide;
+#endif
+uniform sampler2D uOverTex; uniform vec2 uOver;
+uniform vec4 uLook; uniform float uCurve;
+vec3 screen_env(vec3 env) {
+  return mix(env, texture2D(uOverTex, vEnv).rgb, uOver.x);
+}
+vec3 glass_env(vec3 env) {
+  return mix(env, texture2D(uOverTex, vEnv).rgb, uOver.y);
+}
+#endif
+#if PROG == 1
+varying highp vec3 vHalf, vNormal;
+#endif
+#if FRAME_ENV
+uniform sampler2D uFrame; uniform float uFrameK; varying vec3 vFrame; varying float vFres;
+vec3 frame_env() {
+  vec3 r = normalize(vFrame);
+  vec2 q = r.xy / (abs(r.z) + 0.3);
+  vec2 uv = 0.5 + 0.5 * q * vec2(0.56, 1.0);
+  if (r.z > 0.0) uv.y = 0.6 + 0.4 * clamp(0.5 + 0.5 * q.y, 0.0, 1.0);
+  vec3 f = texture2D(uFrame, clamp(uv, 0.002, 0.998)).rgb;
+  if (!(f.r >= 0.0)) f.r = 0.0;
+  if (!(f.g >= 0.0)) f.g = 0.0;
+  if (!(f.b >= 0.0)) f.b = 0.0;
+  return min(f, vec3(4.0));
+}
+#endif
+void main() {
+  lowp vec4 t = texture2D(uTex, vUV);
+  lowp float ao = texture2D(uAO, vUV).r;
+#if PROG == 0
+  lowp vec4 c = t * vColor;
+  c.rgb *= ao;
+#elif PROG == 1
+  vec3 e = pow(screen_env(texture2D(uEnv, vec2(vEnv.x, 1.0 - vEnv.y)).rgb), vec3(uCurve)) * vColor.rgb;
+  highp float s = pow(clamp(dot(normalize(vNormal), normalize(vHalf)), 0.0, 1.0), 256.0);
+#if FRAME_ENV
+  vec3 fe = frame_env();
+  e += fe * fe * (uFrameK * (0.15 + 1.45 * vFres));
+#endif
+  vec4 c = vec4((t.rgb * vColor.rgb + min(vColor.a * uLook.x, 1.0) * e + s * uLook.w) * ao, 1.0);
+#else
+  if ((vFacing > 0.0) == (uSide > 0.0)) discard;
+  float win = step(t.a, 0.95) * step(dot(t.rgb, vec3(0.3333)), 0.25);
+  vec4 c = vec4(mix(t.rgb, glass_env(texture2D(uEnv, vEnv).rgb), min(texture2D(uSpec, vUV).r * uLook.z, 1.0)) * ao, t.a * mix(1.0, uLook.y, win)) * vColor;
+#endif
+#if CUTOUT
+  if (c.a < 0.5) discard;
+#endif
+#if PROG == 0
+  gl_FragColor = vec4(mix(uFogColor, c.rgb, vFog), c.a);
+#else
+  gl_FragColor = c;
+#endif
+}

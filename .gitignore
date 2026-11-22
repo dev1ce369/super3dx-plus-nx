@@ -1,0 +1,58 @@
+# Nothing taken from the arcade game may be committed: no data, no executable, and nothing generated from them.
+
+# the converted game data and build output
+/data/
+/build/
+*.img
+*.apk
+*.tar
+
+# Switch build output and anything staged for copying to the SD card.
+*.nro
+*.nacp
+*.elf
+*.map
+*.lst
+/platform/switch/build/
+/platform/switch/icon.jpg
+/sd-card-update/
+
+# generated from the arcade's `main` by tools/gen_from_original.sh (tables, lists, the recompiled physics)
+/src/*db.h
+/src/spriteids.h
+/src/battle.h
+/src/carwheel.h
+/src/steff.h
+/src/sttune.h
+/src/story*.h
+/src/tenline.h
+/src/minicourse.h
+/src/phys/phys_rc.c
+/src/phys/rc_addr.h
+/tools/*.json
+!/tools/jpids.json
+/tools/*_texts.txt
+/tools/uvtab.txt
+/tools/stage/barricades.txt
+/tools/vsdisc/
+
+# a dump of the game dropped next to the sources by mistake
+/main
+/etc/
+/ext/
+/libso/
+/modules/
+
+# caches and editors
+__pycache__/
+*.pyc
+.vscode/
+.idea/
+
+# toolchain pieces build.py downloads, and what it makes
+/.super3dx/
+
+# what the setup makes next to the sources: the finished games hold the game's data, so they must never be committed
+/Super3DXPlus-*/
+/Super3DXPlus-*.old/
+/Super3DXPlus-*.apk
