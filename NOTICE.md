@@ -1,8 +1,14 @@
 # Notices
 
-## Based on Re3DX+
+## Based on Super3DX+ and Re3DX+
 
-This project builds on **Re3DX+**, an unofficial port of the arcade game to old iOS and Android devices, by
+This repository is a continuation of **[Super3DXPlus](https://github.com/smolderyguest/Super3DXPlus)** by
+**[smolderyguest](https://github.com/smolderyguest)**. The original PC, Android and Raspberry Pi port, its
+build tooling, its documentation and the design of the player come from that project. Thank you to smolderyguest
+for the original work. This repository keeps the original MIT notice where applicable and adds the Nintendo
+Switch port, the READY-button fix, libnx socket initialization and diagnostics, and matching Android/NRO icons.
+
+That project in turn builds on **Re3DX+**, an unofficial port of the arcade game to old iOS and Android devices, by
 **高橋涼介のFC** (GitHub: [Allannn-sudo](https://github.com/Allannn-sudo)), released under the MIT licence
 (see `LICENSE`, which keeps the original copyright line).
 

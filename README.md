@@ -1,6 +1,6 @@
 # Super3DX+
 
-This is an accessibility-focused native port of *Wangan Midnight Maximum Tune 3DX+* with extensive controller support, native wheel support, and a new console-style frontend. It is based on the static recompilation work of [Re3DX+](https://github.com/Allannn-sudo). The player was rebuilt on SDL2 alongside the original Android player. It supports both the Japan and Export (English) versions of the game, and runs on:
+This is an accessibility-focused native port of *Wangan Midnight Maximum Tune 3DX+* with extensive controller support, native wheel support, and a new console-style frontend. It is a continuation of [Super3DXPlus by smolderyguest](https://github.com/smolderyguest/Super3DXPlus), which is based on the static recompilation work of [Re3DX+](https://github.com/Allannn-sudo). Full credit for the original PC, Android and Raspberry Pi port, its tools and its documentation goes to **smolderyguest**. This repository adds the Nintendo Switch port, the READY-button fix, Switch socket initialization and diagnostics, and matching Android/NRO icons. The player was rebuilt on SDL2 alongside the original Android player. It supports both the Japan and Export (English) versions of the game, and runs on:
 
 - PC (Windows / Linux)
 - Android
