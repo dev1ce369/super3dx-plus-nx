@@ -7,6 +7,8 @@ This is an accessibility-focused native port of *Wangan Midnight Maximum Tune 3D
 - Raspberry Pi
 - Nintendo Switch
 
+> **Switch test status:** the Switch build has been tested on hardware with the **Export (English)** version. The **Japan (JPN)** version has not been tried on Switch yet.
+
 The goal of this project is to allow you to play the game natively, and access its features like car saving/loading without needing to run several additional programs and compatibility layers to do so.
 
 Showcase videos: 

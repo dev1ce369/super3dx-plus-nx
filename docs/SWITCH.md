@@ -5,8 +5,10 @@ game code as the Windows, Linux and Android players. It uses **devkitA64 +
 libnx + switch-sdl2 (SDL2-for-Switch)** and reuses the normal SDL2 backend in
 `platform/sdl2/`; there is no separate game engine in this folder.
 
-> Status: **tested on Switch hardware.** The Makefile tracks the current
-> devkitPro packages (devkitA64, libnx, switch-sdl2, switch-mesa, switch-zlib).
+> Status: **tested on Switch hardware with the Export (English) build.** The
+> Japan (JPN) build has not been tried on Switch; use it at your own risk and
+> report problems. The Makefile tracks the current devkitPro packages
+> (devkitA64, libnx, switch-sdl2, switch-mesa, switch-zlib).
 
 ## 1. Download the NRO (no build needed)
 
