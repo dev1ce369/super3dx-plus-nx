@@ -10,12 +10,23 @@ libnx + switch-sdl2 (SDL2-for-Switch)** and reuses the normal SDL2 backend in
 > report problems. The Makefile tracks the current devkitPro packages
 > (devkitA64, libnx, switch-sdl2, switch-mesa, switch-zlib).
 
-## 1. Download the NRO (no build needed)
+## 1. Download the NRO or ZIP (no build needed)
 
-If you just want to play, download `super3dx+nx.nro` from
+If you just want to play, download `super3dx+NX.zip` from
 [GitHub Releases](https://github.com/dev1ce369/super3dx-plus-nx/releases/latest).
-It is only the homebrew executable — it contains **no game data**. You must make
-the converted `data/` folder yourself from your own legally obtained dump; see
+The ZIP contains:
+
+```text
+super3dx+NX/
+└── switch/
+    └── super3dx+nx.nro
+```
+
+Unzip it and copy `super3dx+nx.nro` into `sdmc:/switch/super3dx+nx/` beside your
+own converted `data/` folder; do not copy the whole extracted folder. A standalone
+`super3dx+nx.nro` is also attached if you prefer it. The executable is only our
+code — it contains **no game data**. You must make the converted `data/` folder
+yourself from your own legally obtained dump; see
 [Section 4](#4-install-on-the-sd-card) for the exact layout.
 
 ## 2. What you need to build it yourself
@@ -95,10 +106,14 @@ on the Switch — **not** the raw dump's `data/` folder and not the `main` file.
 
 ### Step B — copy this exact layout to the SD card
 
+If you downloaded the ZIP, extract `super3dx+nx.nro` from
+`super3dx+NX/switch/` first. The ZIP folder is only packaging; the SD card must
+still use the layout below.
+
 ```text
 sdmc:/switch/
 └── super3dx+nx/
-    ├── super3dx+nx.nro       ← the downloaded NRO
+    ├── super3dx+nx.nro       ← extracted from the ZIP, or standalone NRO
     ├── data/                 ← the whole converted data folder from the PC
     │   ├── menu.bin
     │   ├── cars/

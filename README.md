@@ -29,7 +29,15 @@ You can't. Any pre-built APK or PC EXE you see online is an unauthorized distrib
 
 **Where can I get the Switch NRO?**
 
-The Switch build is available in [GitHub Releases](https://github.com/dev1ce369/super3dx-plus-nx/releases/latest). The NRO contains only this project's code — **no game data, no dump, no converted assets**. You still need to make your own converted `data/` folder from a legally obtained dump and put it beside the NRO on your SD card. See [docs/SWITCH.md](docs/SWITCH.md) for the exact folder layout and steps.
+Download `super3dx+NX.zip` from [GitHub Releases](https://github.com/dev1ce369/super3dx-plus-nx/releases/latest). The ZIP contains only this layout:
+
+```text
+super3dx+NX/
+└── switch/
+    └── super3dx+nx.nro
+```
+
+The NRO contains only this project's code — **no game data, no dump, no converted assets**. Unzip it, take `super3dx+nx.nro` from `super3dx+NX/switch/`, and put it beside your own converted `data/` folder in `sdmc:/switch/super3dx+nx/`. A standalone NRO is also attached to the release. See [docs/SWITCH.md](docs/SWITCH.md) for the exact folder layout and steps.
 
 ## Quick start
 
